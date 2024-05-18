@@ -1,0 +1,61 @@
+/*Ryan Kutella*/
+/*question 1*/
+select pname, pnumber, dnum
+from PROJECT
+where plocation = 'Houston';
+
+/*question 2*/
+select fname, lname, salary
+from DEPARTMENT, EMPLOYEE
+where DNAME = 'Research' AND DNO = DNUMBER
+order by salary desc;
+
+/*question 3*/
+select E1.SSN, E2.SSN
+from EMPLOYEE E1, EMPLOYEE E2
+where E1.salary > E2.salary;
+
+/*question 4*/
+select E1.SSN, COUNT(E2.SUPERSSN) NumberOfEmployees
+from EMPLOYEE E1, EMPLOYEE E2
+where e1.ssn = e2.superssn
+group by E1.SSN;
+
+/*question 5*/
+SELECT Lname, Fname, salary
+FROM EMPLOYEE E1 
+WHERE salary > (select AVG(salary)
+                from DEPARTMENT, EMPLOYEE
+                where DNO = DNUMBER) ;
+      
+/*question 6  */              
+SELECT DNAME, count(DNO)
+FROM EMPLOYEE E1, DEPARTMENT
+WHERE DNO = DNUMBER AND (select AVG(salary)
+       from DEPARTMENT, EMPLOYEE
+       where DNO = DNUMBER) > 31000
+group by DNAME;
+
+/*question 7 */
+SELECT DNAME, AVG(salary)
+FROM EMPLOYEE, DEPARTMENT D1
+WHERE DNO = DNUMBER AND (select AVG(salary)
+       from DEPARTMENT, EMPLOYEE
+       where DNO = DNUMBER AND DNO = D1.DNumber) > (select AVG(salary)
+                                                    from EMPLOYEE)
+group by DNAME;
+
+/*question 8 */
+SELECT distinct PNAME, PNUMBER
+from EMPLOYEE, DEPARTMENT, WORKS_ON, PROJECT
+where DNO = DNUMBER AND DNAME ='Administration' AND SSN=ESSN AND PNO = PNUMBER;
+
+/*question 9 */
+Select Ssn, Fname, Lname
+From (Employee INNER JOIN works_on on essn=ssn) INNER JOIN PROJECT on pno = pnumber
+Where Pname like 'Product%';
+
+/*question 10 */
+SELECT *
+FROM (EMPLOYEE inner join WORKS_ON on ssn=essn) inner join PROJECT on Pno=pnumber
+WHERE Pname='Computerization' AND Hours>10;
